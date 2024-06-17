@@ -2,6 +2,12 @@
 
 tmpfile=$(mktemp)
 
+if [ "$2" = "diff" ]; then
+    show_diff_output=true
+else
+    show_diff_output=false
+fi
+
 if [ "$2" = "debug" ]; then
     show_debug_output=true
 else
@@ -194,5 +200,10 @@ if $show_debug_output; then
     echo
 fi
 
-cat $tmpfile
+if $show_diff_output; then
+    diff $1 $tmpfile
+else
+    cat $tmpfile
+fi
+
 rm -f $tmpfile
